@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BP共建输出内容 · 渐进式披露</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #f0f2f5;
+    color: #1d2129;
+    padding: 24px 16px;
+    line-height: 1.6;
+  }
+  .container { max-width: 960px; margin: 0 auto; }
+
+  /* 头部 */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    border-radius: 16px;
+    padding: 32px 28px;
+    margin-bottom: 28px;
+  }
+  .header h1 { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
+  .header .sub { font-size: 14px; opacity: .7; margin-bottom: 12px; }
+  .header .desc { font-size: 14px; opacity: .85; line-height: 1.7; }
+
+  /* 层级导航卡片 */
+  .layer-nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .layer-nav a {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 8px 14px; border-radius: 20px;
+    font-size: 13px; font-weight: 500;
+    text-decoration: none; transition: all .2s;
+    background: #fff; color: #1d2129; border: 1px solid #e5e6e8;
+  }
+  .layer-nav a:hover { border-color: #165dff; color: #165dff; }
+
+  /* 骨架行 */
+  .skeleton {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 14px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .skeleton-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 18px 20px;
+    cursor: pointer;
+    user-select: none;
+    transition: background .15s;
+    position: relative;
+  }
+  .skeleton-header:hover { background: #f7f8fa; }
+  .skeleton-header .badge {
+    flex-shrink: 0;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    font-size: 16px; font-weight: 700;
+    color: #fff;
+  }
+  .badge-l0 { background: #86909c; }
+  .badge-l1 { background: #4e5969; }
+  .badge-l2 { background: #165dff; }
+  .badge-l3 { background: #3491fa; }
+  .badge-l4 { background: #f7b731; }
+  .badge-l5 { background: #f77234; }
+  .badge-l6 { background: #d91b1b; }
+
+  .skeleton-header .info { flex: 1; min-width: 0; }
+  .skeleton-header .info .title {
+    font-size: 16px; font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .skeleton-header .info .source {
+    font-size: 12px; color: #86909c;
+  }
+  .skeleton-header .conclusion {
+    font-size: 14px; color: #4e5969;
+    max-width: 400px;
+    flex-shrink: 0;
+  }
+  .skeleton-header .arrow {
+    flex-shrink: 0;
+    transition: transform .25s;
+    color: #c9cdd4;
+    font-size: 18px;
+  }
+  .skeleton-header.open .arrow { transform: rotate(180deg); }
+
+  /* 详情区 */
+  .detail {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s ease, opacity .3s;
+    opacity: 0;
+  }
+  .detail.open {
+    max-height: 6000px;
+    opacity: 1;
+  }
+  .detail-inner {
+    padding: 0 20px 20px;
+    border-top: 1px solid #e5e6e8;
+  }
+  .detail-inner h3 {
+    font-size: 14px; font-weight: 600;
+    margin-top: 18px; margin-bottom: 8px;
+    color: #1d2129;
+  }
+  .detail-inner p, .detail-inner li {
+    font-size: 14px; color: #4e5969;
+    margin-bottom: 6px;
+  }
+  .detail-inner ul { padding-left: 18px; }
+  .detail-inner .case-link {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: #f0f5ff; color: #165dff;
+    border-radius: 8px;
+    font-size: 13px;
+    text-decoration: none;
+    transition: background .2s;
+  }
+  .detail-inner .case-link:hover { background: #e0ebff; }
+
+  /* 附录 */
+  .appendix { margin-top: 28px; }
+  .appendix-title {
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #e5e6e8;
+  }
+
+  .ap-block {
+    background: #fff;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+    overflow: hidden;
+  }
+  .ap-header {
+    display: flex; align-items: center; gap: 8px;
+    padding: 14px 20px;
+    cursor: pointer;
+    font-size: 14px; font-weight: 600;
+    user-select: none;
+  }
+  .ap-header:hover { background: #f7f8fa; }
+  .ap-header .arrow { transition: transform .25s; color: #c9cdd4; }
+  .ap-header.open .arrow { transform: rotate(180deg); }
+  .ap-body {
+    max-height: 0; overflow: hidden;
+    transition: max-height .4s ease, opacity .3s;
+    opacity: 0;
+  }
+  .ap-body.show { max-height: 6000px; opacity: 1; }
+  .ap-body-inner {
+    padding: 0 20px 18px;
+    border-top: 1px solid #e5e6e8;
+  }
+  .ap-body-inner p, .ap-body-inner li {
+    font-size: 14px; color: #4e5969;
+    margin-bottom: 6px;
+  }
+  .ap-body-inner ul { padding-left: 18px; }
+
+  table {
+    width: 100%; border-collapse: collapse;
+    font-size: 13px;
+    margin: 10px 0;
+  }
+  th, td {
+    padding: 8px 10px;
+    border: 1px solid #e5e6e8;
+    text-align: left;
+  }
+  th { background: #f7f8fa; font-weight: 600; }
+
+  /* 旧案例标签 */
+  .old-case { color: #86909c; font-size: 12px; font-style: italic; }
+
+  @media (max-width: 600px) {
+    .skeleton-header { flex-wrap: wrap; }
+    .skeleton-header .conclusion { max-width: 100%; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- 头部 -->
+  <div class="header">
+    <h1>📋 BP共建输出内容</h1>
+    <div class="sub">渐进式披露 · L0-L6 信息分层框架</div>
+    <div class="desc">
+      每行一个「结论句」，点击展开看「逻辑+数据」，再往下一层看「完整文档链接」。
+      5 秒扫完大局，有兴趣再点开。
+    </div>
+  </div>
+
+  <!-- 层级导航 -->
+  <div class="layer-nav">
+    <a href="#l0">🛎️ L0 客诉</a>
+    <a href="#l1">📊 L1 行为数据</a>
+    <a href="#l2">🔻 L2 流失信号</a>
+    <a href="#l3">🧠 L3 行为动机</a>
+    <a href="#l4">🤐 L4 沉默痛点</a>
+    <a href="#l5">👀 L5 竞品情报</a>
+    <a href="#l6">🎭 L6 心智模型</a>
+    <a href="#ap1">📎 附录</a>
+  </div>
+
+  <!-- ===== L0 ===== -->
+  <div class="skeleton" id="l0">
+    <div class="skeleton-header" onclick="toggle('d-l0',this)">
+      <div class="badge badge-l0">L0</div>
+      <div class="info">
+        <div class="title">客诉信号</div>
+        <div class="source">来源：BP 客诉系统</div>
+      </div>
+      <div class="conclusion">用户主动抱怨→我们收到信号→优先级最高</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l0">
+      <div class="detail-inner">
+        <p>BP 客诉系统实时采集用户投诉和反馈，按频次和严重度排序。这是最直接的「出问题信号」，但仅限于愿意花时间投诉的用户，样本有偏。</p>
+        <p><span class="old-case">（已有能力，无新增文档）</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L1 ===== -->
+  <div class="skeleton" id="l1">
+    <div class="skeleton-header" onclick="toggle('d-l1',this)">
+      <div class="badge badge-l1">L1</div>
+      <div class="info">
+        <div class="title">行为数据</div>
+        <div class="source">来源：BP 看板</div>
+      </div>
+      <div class="conclusion">谁在下降、降了多少、多久了 → 定量视角</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l1">
+      <div class="detail-inner">
+        <p>通过 BP 看板追踪核心指标（活跃度、留存率、使用时长等），识别下降趋势和异常波动。这是「发现问题的眼睛」，但只能告诉你「什么在变差」，不能告诉你「为什么」。</p>
+        <p><span class="old-case">（已有能力，无新增文档）</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L2 ===== -->
+  <div class="skeleton" id="l2">
+    <div class="skeleton-header" onclick="toggle('d-l2',this)">
+      <div class="badge badge-l2">L2</div>
+      <div class="info">
+        <div class="title">流失前信号</div>
+        <div class="source">外呼 + 社群 · 我们能补的</div>
+      </div>
+      <div class="conclusion">用户流失前做了什么、说了什么→行为先兆</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l2">
+      <div class="detail-inner">
+
+        <h3>📌 DSP 中小客户流失原因调研（53份严口径样本）</h3>
+        <ul>
+          <li><strong>81.1%</strong> 流失客户因「投流效果不及预期」流失，<strong>51.2%</strong> 反映人群不精准</li>
+          <li>近一个月流失客户中 <strong>25%</strong> 表示愿意再试试，近三个月仅 <strong>6%</strong>——时间越长越难挽回</li>
+          <li>流失前典型信号：消耗突然飙升/瞬间消耗完→零转化→停投→流失</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcABGpvuez3INW2nC-xooBysg" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 快影临沂线下调研（33位万粉创作者）</h3>
+        <ul>
+          <li>垂类创作者降频/流失多因<strong>平台整体流量下降</strong>、变现受阻，而非剪辑工具本身问题</li>
+          <li>游戏/二次元作者剪辑能力强但变现弱→依赖运营活动，收入少且不稳定</li>
+          <li>三农／美食团购作者在流量持续不及预期时转移平台运营偏重→间接影响快影使用</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 聚星达人AIGC调研（11位达人深度访谈）</h3>
+        <ul>
+          <li>低粉达人（10w-）追求短期变现，AI工具使用率低，素材制作尚无达人使用AI能力</li>
+          <li>AI短剧解说：低粉达人超半数表示功能上线会提高参与意愿，但<strong>担心AI生成内容重复度高导致限流</strong></li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 同城相亲内容创作者调研（5位作者深度访谈）</h3>
+        <ul>
+          <li><strong>42%</strong> 作者表示「基本没赚钱」——流量不足+变现路径单一是核心流失先兆</li>
+          <li>线上型作者收入下滑明显（高峰期月入过万→当前6000-9000元），流量波动直接影响生计</li>
+          <li>私联逃单严重：线上通过刷礼物牵线的模式中，男士在刷礼环节频繁离开</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 回森线下调研（39位用户，沈阳/鞍山）</h3>
+        <ul>
+          <li>AI美音「不像自己」的负面反馈比较普遍——改造太过反而不利于社交真实性</li>
+          <li>曲库版权下架、小众歌曲（说唱/R&B/喊麦）缺失导致用户生产意愿下降</li>
+          <li>社交冷启：新用户「被邀请」后真香，但初始触达路径掉卡太多</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 查看完整文档 →</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L3 ===== -->
+  <div class="skeleton" id="l3">
+    <div class="skeleton-header" onclick="toggle('d-l3',this)">
+      <div class="badge badge-l3">L3</div>
+      <div class="info">
+        <div class="title">行为动机</div>
+        <div class="source">社群 + 深度访谈 · 我们能补的</div>
+      </div>
+      <div class="conclusion">用户为什么做/不做某件事→深层驱动因素</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l3">
+      <div class="detail-inner">
+
+        <h3>📌 快影：三类垂类创作者的动机差异</h3>
+        <ul>
+          <li><strong>游戏/二次元作者（17位，52%）：</strong>兴趣驱动/为爱发电，追求内容新奇有趣，有模仿学习新功能的动力。但变现少且不稳定</li>
+          <li><strong>三农作者（8位，24%）：</strong>以扩大农产品销路为核心目标，看重成交转化率而非播放量。剪辑能力弱、进阶意愿低</li>
+          <li><strong>美食团购/电商作者（8位，24%）：</strong>对变现有明确预期，内容生产成本低，对会员价格不敏感、付费意愿高</li>
+          <li>AI已在万粉作者中建立初步认知（33位中有24位了解AI，14位已使用过，2位已实现AI变现）</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 同城相亲：线上型 vs 线下型作者的变现逻辑差异</h3>
+        <ul>
+          <li><strong>线上型：</strong>直播为主（日均5-7小时），靠打赏/刷礼物变现。平台即撮合场所，变现路径单一且被动</li>
+          <li><strong>线下型：</strong>短视频获客，靠登记费（男600/女300元）和成功后答谢红包（3000-6000元/对）变现。变现路径更清晰</li>
+          <li>站内近六成作者做相亲超2年，但仅44%成功撮合20对以上——撮合效率有巨大提升空间</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 聚星达人：低粉 vs 高粉达人的内容创作动机</h3>
+        <ul>
+          <li><strong>低粉段达人（10w-）：</strong>追求短期变现→会尝试不同行业，多用AI产出脚本，对AI短剧解说参与意愿高（4/6）</li>
+          <li><strong>高粉段达人（10w+）：</strong>关注账号垂直度→选择与账号定位匹配的商单，会软广化呈现，用豆包/DeepSeek做参考和润色</li>
+          <li>高粉段中「变现型」对AI脚本功能需求强（可大量生产）vs 「创作型」认为AI文案太硬广不适合账号风格</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 回森：社交动机驱动</h3>
+        <ul>
+          <li>用户画像：<strong>孤独、排斥现实社交、希望排解、偏向悦己</strong></li>
+          <li>社交冷启效率：歌房社交 &gt; 作品社交。「唱歌好的→唱唱房，唱歌不好的→唠嗑房」</li>
+          <li>05后视为「原生app」，「想要谈cp」是核心社交期待</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 查看完整文档 →</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L4 ===== -->
+  <div class="skeleton" id="l4">
+    <div class="skeleton-header" onclick="toggle('d-l4',this)">
+      <div class="badge badge-l4">L4</div>
+      <div class="info">
+        <div class="title">沉默痛点</div>
+        <div class="source">社群日常观察 · 我们能补的</div>
+      </div>
+      <div class="conclusion">用户不说但很痛的点→不会投诉但悄悄流失</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l4">
+      <div class="detail-inner">
+
+        <h3>📌 DSP 中小客户：效果层面的沉默痛点</h3>
+        <ul>
+          <li><strong>假人/假粉：</strong>"投了500块，抖音来的都是真人，快手投来的打电话也不接"</li>
+          <li><strong>线索质量差：</strong>线索不精准、重复线索、打通后用户表示误触/没兴趣</li>
+          <li><strong>获客成本高：</strong>"一个下单用户能接受70块，它一个成本大概500块"</li>
+          <li><strong>瞬间消耗：</strong>"几分钟内突然消耗没了"、"直播间没上人，钱扣完了"</li>
+          <li><strong>起量难：</strong>"跑一天只消耗几毛钱，就是不跑量"</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcABGpvuez3INW2nC-xooBysg" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 快影：18项体验优化问题</h3>
+        <ul>
+          <li><strong>音频相关（6项）：</strong>AI克隆音色效果不好（付费且不如网页工具）、智能配音缺乏情绪（太生硬）、搜不到想要的音效、iOS找不到音频文件夹等</li>
+          <li><strong>常规剪辑（6项）：</strong>删除片尾麻烦、画中画功能位置靠后、素材拖拽体验不佳、文字快剪跳变衔接生硬等</li>
+          <li><strong>发布相关（3项）：</strong>快影无法挂载主站PLC/商品链接、无法添加「内容由AI生成」声明、iPad端体验不佳</li>
+          <li><strong>封面制作（2项）：</strong>封面制作麻烦</li>
+          <li>功能层级复杂、常用功能位置深，增加创作成本</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 回森：产品体验层面的沉默痛点</h3>
+        <ul>
+          <li><strong>AI美音「不像自己」</strong>负面反馈普遍——改造过度反而降低社交真实性</li>
+          <li><strong>曲库版权下架</strong>+小众歌曲（说唱/R&B/喊麦）缺失</li>
+          <li><strong>小纸条社交效率低</strong>，人机感重，半夜扩列广场涉黄多</li>
+          <li><strong>群聊认知低</strong>，用户更习惯私聊后用微信进一步沟通</li>
+          <li><strong>AI礼物被排斥</strong>——用户觉得不值得花钱</li>
+          <li>连麦不能浮窗、发语音延迟1秒</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 聚星AI工具：使用层面的沉默痛点</h3>
+        <ul>
+          <li><strong>AI脚本生成：</strong>达人感知弱/难上手（"点开过，感觉挺费劲"）、生成语句不通顺/啰嗦、引流下载话术易违规</li>
+          <li><strong>AI营销成片与脚本未关联</strong>：需跳转快影，重复填写产品名称，操作复杂</li>
+          <li><strong>新手教育不足：</strong>"没有引导和提醒，一看几百字的文字就看不懂"</li>
+          <li><strong>视频生成速度慢：</strong>"1-2分钟比较合适，干等不能做别的"</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 同城相亲：撮合效率低的沉默问题</h3>
+        <ul>
+          <li><strong>「早上牵手晚上分手」：</strong>线上轻模式只有牵线没有后续跟进，速配问题严重</li>
+          <li><strong>私聊逃单：</strong>"要刷礼时男的就走了"，在直播间刷礼环节频繁流失</li>
+          <li><strong>变现满意度差：</strong>"11个月200块钱，电费都不够"——收入整体偏低</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 查看完整文档 →</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L5 ===== -->
+  <div class="skeleton" id="l5">
+    <div class="skeleton-header" onclick="toggle('d-l5',this)">
+      <div class="badge badge-l5">L5</div>
+      <div class="info">
+        <div class="title">竞品情报</div>
+        <div class="source">社群 + 访谈 · 我们能补的</div>
+      </div>
+      <div class="conclusion">竞对在做什么、用户为什么选他们→对手视角</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l5">
+      <div class="detail-inner">
+
+        <h3>📌 快影 vs 剪映 &amp; PR</h3>
+        <ul>
+          <li><strong>剪映和PR已在专业作者群中建立极高认同</strong>——"剪映就是一个傻瓜式的操作非常简单，谁都拒绝不了"</li>
+          <li>剪映的<strong>付费化</strong>（语音转字幕收费、热门素材收费）导致部分作者考虑回流快影</li>
+          <li>但快影的付转免策略触达严重不足：<strong>33位作者中仅1人知晓</strong>快影近期免费策略</li>
+          <li>PC端市场：剪映PR心智极强，快影切入需优先解决场景缺失、迁移成本高等前置问题</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 聚星AI vs 豆包/DeepSeek</h3>
+        <ul>
+          <li>高粉段达人更倾向于使用<strong>豆包/DeepSeek</strong>写文案——"生成速度可以，但AI写的太专业了不适合粉丝"</li>
+          <li>低粉达人觉得聚星AI脚本「端内操作方便」是优势，但高粉达人认为聚星AI脚本只适合硬广，无法与个人风格融合</li>
+          <li>高粉达人使用DeepSeek自主学习优化，不依赖平台的AI工具</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 回森 vs 全民K歌/配音App</h3>
+        <ul>
+          <li>竞品用户在调音/修音方面对回森评价不如竞对</li>
+          <li>唱弹幕是回森区别于竞品的特色功能——比评论更有「活人感」</li>
+          <li>竞对用户在回森中主要通过私信/小纸条进行社交</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 DSP vs 抖音投流</h3>
+        <ul>
+          <li>客户频繁对比抖音投流效果——"投了500块，抖音来的都是真人，快手上投来的人像假人"</li>
+          <li>抖音的搜索类投流 vs 快手推荐类投流：客户认为快手人群画像偏农村、消费能力低</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcABGpvuez3INW2nC-xooBysg" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 同城相亲：多平台获客</h3>
+        <ul>
+          <li>线上型作者主要在快手直播，但<strong>线下型作者同时运营抖音/微信等多平台</strong></li>
+          <li>线下型作者通过微信私域完成撮合和收费，平台仅承担获客功能</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 查看完整文档 →</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== L6 ===== -->
+  <div class="skeleton" id="l6">
+    <div class="skeleton-header" onclick="toggle('d-l6',this)">
+      <div class="badge badge-l6">L6</div>
+      <div class="info">
+        <div class="title">心智模型</div>
+        <div class="source">行为反推 + 访谈 · 我们能补的</div>
+      </div>
+      <div class="conclusion">用户怎么看待这个产品→认知框架决定行为</div>
+      <div class="arrow">▾</div>
+    </div>
+    <div class="detail" id="d-l6">
+      <div class="detail-inner">
+
+        <h3>📌 DSP客户心智："投流效果差"→"不值得再试"</h3>
+        <ul>
+          <li>流失后时间越长，心智越固化。近三个月流失的客户仅<strong>6%愿意再试</strong>（vs 近一个月25%）</li>
+          <li>69.8%的流失客户回流顾虑是「之前投放效果不好」——不是产品功能问题，是<strong>信任崩塌</strong></li>
+          <li>"花了一万，没有成交的"——经历了高成本零回报后形成「DSP没用」的固化认知</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcABGpvuez3INW2nC-xooBysg" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 快影作者心智："免费工具不值得付" vs "付费=投资"</h3>
+        <ul>
+          <li><strong>无稳定变现的作者：</strong>"免费就够用了，收费就换"——价格敏感+工具可替代</li>
+          <li><strong>有变现能力的作者：</strong>"本身你要挣钱就得投入这个，多少钱无所谓"——付费是创作投资</li>
+          <li>「挣钱才值得投入工具」vs「投入工具才能挣钱」——两种心智决定了是否愿意为剪辑工具付费</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 聚星达人AI心智："AI帮我能省钱省时间" vs "AI只能辅助"</h3>
+        <ul>
+          <li><strong>低粉达人：</strong>"直接点击使用脚本生成，不用改"——AI是替代品，降低创作门槛</li>
+          <li><strong>高粉达人：</strong>"AI写出来的还会再改"——AI是辅助工具，核心靠个人创作力</li>
+          <li>两种心智决定了AI工具的使用深度和付费意愿：低粉浅用但用完就走，高粉深用但依赖自身能力</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 回森用户心智："05后的原生app" & "想要谈cp"</h3>
+        <ul>
+          <li>年轻人将回森定位为<strong>年轻人的音乐社交软件</strong>——孤独但排斥现实社交，线上社交排解</li>
+          <li>用户对AI美音的矛盾心理：希望声音好听但又不希望"不像自己"——社交真实性 vs 美化欲望的张力</li>
+          <li>"MOCK占比比较高"——部分用户对AI/假社交持保留态度</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 同城相亲作者心智："平台是撮合场所" vs "平台是获客渠道"</h3>
+        <ul>
+          <li><strong>线上型：</strong>平台=撮合场所——依赖实时互动完成匹配，一切在直播间内闭环</li>
+          <li><strong>线下型：</strong>平台=获客渠道——核心服务在线下完成，平台只负责引流</li>
+          <li>两种心智决定了作者对平台扶持的需求：线上型需要流量和直播工具，线下型需要精准获客和信任背书</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 查看完整文档 →</a>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 附录区域 ===== -->
+  <div class="appendix" id="ap1">
+    <div class="appendix-title">📎 附录</div>
+
+    <!-- 附录1：用户旅程 -->
+    <div class="ap-block">
+      <div class="ap-header" onclick="toggleAp('ap-body-1',this)">
+        <span class="arrow">▾</span>
+        附录1 · 用户旅程：从产生联系到持续合作
+      </div>
+      <div class="ap-body" id="ap-body-1">
+        <div class="ap-body-inner">
+          <table>
+            <tr><th>阶段</th><th>触点</th><th>我们做什么</th><th>用户感受</th></tr>
+            <tr>
+              <td>触达期</td>
+              <td>社群邀请 / 外呼 / 线下访谈</td>
+              <td>BP客诉信号→主动联系→说明来意和激励</td>
+              <td>"有人在乎我的感受"</td>
+            </tr>
+            <tr>
+              <td>参与期</td>
+              <td>深度访谈 / 社群讨论</td>
+              <td>结构化提问→挖掘真实动机→记录行为模式</td>
+              <td>"终于有人问我想什么了"</td>
+            </tr>
+            <tr>
+              <td>反馈期</td>
+              <td>看板更新 / 结论同步</td>
+              <td>输出分析结果→同步BP→验证假设</td>
+              <td>"上次说完的东西真的被改了"</td>
+            </tr>
+            <tr>
+              <td>验证期</td>
+              <td>波动监控 / 留人策略</td>
+              <td>看数据验证→效果是否有改善→迭代</td>
+              <td>（不感知）</td>
+            </tr>
+            <tr>
+              <td>留存期</td>
+              <td>长期社群 / 专属顾问</td>
+              <td>持续跟进行为变化→预警+主动服务</td>
+              <td>"一直在，随时能找到"</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 附录2：获取方式 -->
+    <div class="ap-block">
+      <div class="ap-header" onclick="toggleAp('ap-body-2',this)">
+        <span class="arrow">▾</span>
+        附录2 · 三种手段的获取方式对比
+      </div>
+      <div class="ap-body" id="ap-body-2">
+        <div class="ap-body-inner">
+          <table>
+            <tr><th>手段</th><th>样本规模</th><th>深度</th><th>时效性</th><th>成本</th><th>适合层级</th></tr>
+            <tr>
+              <td>外呼</td>
+              <td>中大（50-200人）</td>
+              <td>中等（15-30min）</td>
+              <td>快（1-2周出结果）</td>
+              <td>低</td>
+              <td>L2 流失信号</td>
+            </tr>
+            <tr>
+              <td>社群</td>
+              <td>持续积累</td>
+              <td>浅-中（日常观察）</td>
+              <td>持续（随时获取）</td>
+              <td>极低</td>
+              <td>L2-L6 均可</td>
+            </tr>
+            <tr>
+              <td>调研</td>
+              <td>小（5-50人）</td>
+              <td>深（1-2h深度访谈）</td>
+              <td>慢（3-4周出结果）</td>
+              <td>高</td>
+              <td>L3-L6 深层信息</td>
+            </tr>
+          </table>
+          <p style="margin-top:10px;"><strong>数据来源库</strong>：BP客诉系统（L0）+ BP看板（L1）+ 外呼任务记录（L2）+ 社群聊天记录（L2-L4）+ 用研报告（L3-L6）</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 附录3：调研材料清单 -->
+    <div class="ap-block">
+      <div class="ap-header" onclick="toggleAp('ap-body-3',this)">
+        <span class="arrow">▾</span>
+        附录3 · 调研材料清单（含案例链接）
+      </div>
+      <div class="ap-body" id="ap-body-3">
+        <div class="ap-body-inner">
+          <p style="margin-bottom:10px;">每份材料一句话介绍核心发现 + 文档链接（点击可查看完整原始文档）</p>
+          <table>
+            <tr><th>#</th><th>业务线</th><th>一句话介绍</th><th>文档链接</th></tr>
+            <tr>
+              <td>1</td>
+              <td><strong>DSP商业化</strong></td>
+              <td>53份严口径流失样本：81.1%因投流效果差流失，51.2%反映人群不精准，「花了一万没成交」→信任崩塌→仅19%愿意回来</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcABGpvuez3INW2nC-xooBysg" target="_blank">📄 DSP中小客户流失原因调研</a></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>快影</strong></td>
+              <td>33位万粉垂类创作者线下深度访谈：三类垂类作者动机/痛点/工具使用差异显著，收集18项体验优化点，AI已在万粉作者中建立初步认知</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 快影临沂线下调研（2025.06）</a></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>聚星AIGC</strong></td>
+              <td>11位达人深度访谈：低粉段（10w-）追求短期变现直接用AI脚本、高粉段（10w+）用豆包/DeepSeek辅助创作；AI营销成片显著提高效率但新手教育不足</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcACB77YVz6IERo9pqroZBdt1" target="_blank">📄 聚星达人AIGC能力需求与体验调研</a></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>同城相亲</strong></td>
+              <td>5位相亲内容作者深度访谈：线上型（直播打赏5-7h/天）vs 线下型（登记费模式），42%基本没赚钱，「早上牵手晚上分手」速配问题严重</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 同城相亲内容创作者调研（2026.05）</a></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>回森</strong></td>
+              <td>39位用户线下深度访谈（沈阳/鞍山）：AI美音「不像自己」负面普遍、曲库版权下架影响生产意愿、歌房社交效率>作品社交、05后原生app心智</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 回森线下调研（沈阳/鞍山·2026.04）</a></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 页脚 -->
+  <div style="text-align:center;color:#c9cdd4;font-size:12px;padding:40px 0 20px;">
+    页面版本 v1.1 · 更新于 2026.06 · 5份用研报告已集成
+  </div>
+</div>
+
+<script>
+function toggle(id, row) {
+  var d = document.getElementById(id);
+  var all = document.querySelectorAll('.detail');
+  all.forEach(function(el){ if(el.id !== id) el.classList.remove('open'); });
+  d.classList.toggle('open');
+  var allRows = document.querySelectorAll('.skeleton-header');
+  allRows.forEach(function(r){ if(r !== row) r.classList.remove('open'); });
+  row.classList.toggle('open');
+}
+function toggleAp(id, btn) {
+  var b = document.getElementById(id);
+  b.classList.toggle('show');
+  btn.classList.toggle('open');
+}
+</script>
+</body>
+</html>
