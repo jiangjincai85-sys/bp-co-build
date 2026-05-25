@@ -68,13 +68,13 @@
     font-size: 16px; font-weight: 700;
     color: #fff;
   }
-  .badge-l0 { background: #86909c; }
-  .badge-l1 { background: #4e5969; }
-  .badge-l2 { background: #165dff; }
-  .badge-l3 { background: #3491fa; }
-  .badge-l4 { background: #f7b731; }
-  .badge-l5 { background: #f77234; }
-  .badge-l6 { background: #d91b1b; }
+  .badge-ke-su { background: #86909c; }
+  .badge-shu-ju { background: #4e5969; }
+  .badge-xian-zhao { background: #165dff; }
+  .badge-dong-ji { background: #3491fa; }
+  .badge-tong-dian { background: #f7b731; }
+  .badge-jing-pin { background: #f77234; }
+  .badge-xin-zhi { background: #d91b1b; }
 
   .skeleton-header .info { flex: 1; min-width: 0; }
   .skeleton-header .info .title {
@@ -202,7 +202,7 @@
   <!-- 头部 -->
   <div class="header">
     <h1>📋 BP共建输出内容</h1>
-    <div class="sub">渐进式披露 · L0-L6 信息分层框架</div>
+    <div class="sub">渐进式披露 · 7类信息全景</div>
     <div class="desc">
       每行一个「结论句」，点击展开看「逻辑+数据」，再往下一层看「完整文档链接」。
       5 秒扫完大局，有兴趣再点开。
@@ -211,20 +211,19 @@
 
   <!-- 层级导航 -->
   <div class="layer-nav">
-    <a href="#l0">🛎️ L0 客诉</a>
-    <a href="#l1">📊 L1 行为数据</a>
-    <a href="#l2">🔻 L2 流失信号</a>
-    <a href="#l3">🧠 L3 行为动机</a>
-    <a href="#l4">🤐 L4 沉默痛点</a>
-    <a href="#l5">👀 L5 竞品情报</a>
-    <a href="#l6">🎭 L6 心智模型</a>
+    <a href="#ke-su">🛎️ 客诉信号</a>
+    <a href="#shu-ju">📊 行为数据</a>
+    <a href="#xian-zhao">🔻 流失前兆</a>
+    <a href="#dong-ji">🧠 行为动机</a>
+    <a href="#tong-dian">🤐 沉默痛点</a>
+    <a href="#jing-pin">👀 竞品情报</a>
+    <a href="#xin-zhi">🎭 心智模型</a>
     <a href="#ap1">📎 附录</a>
   </div>
 
-  <!-- ===== L0 ===== -->
-  <div class="skeleton" id="l0">
-    <div class="skeleton-header" onclick="toggle('d-l0',this)">
-      <div class="badge badge-l0">L0</div>
+  <div class="skeleton" id="ke-su">
+    <div class="skeleton-header" onclick="toggle('d-ke-su',this)">
+      <div class="badge badge-ke-su">🛎️</div>
       <div class="info">
         <div class="title">客诉信号</div>
         <div class="source">来源：BP 客诉系统</div>
@@ -232,7 +231,7 @@
       <div class="conclusion">用户主动抱怨→我们收到信号→优先级最高</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l0">
+    <div class="detail" id="d-ke-su">
       <div class="detail-inner">
         <p>BP 客诉系统实时采集用户投诉和反馈，按频次和严重度排序。这是最直接的「出问题信号」，但仅限于愿意花时间投诉的用户，样本有偏。</p>
         <p><span class="old-case">（已有能力，无新增文档）</span></p>
@@ -240,10 +239,9 @@
     </div>
   </div>
 
-  <!-- ===== L1 ===== -->
-  <div class="skeleton" id="l1">
-    <div class="skeleton-header" onclick="toggle('d-l1',this)">
-      <div class="badge badge-l1">L1</div>
+  <div class="skeleton" id="shu-ju">
+    <div class="skeleton-header" onclick="toggle('d-shu-ju',this)">
+      <div class="badge badge-shu-ju">📊</div>
       <div class="info">
         <div class="title">行为数据</div>
         <div class="source">来源：BP 看板</div>
@@ -251,7 +249,7 @@
       <div class="conclusion">谁在下降、降了多少、多久了 → 定量视角</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l1">
+    <div class="detail" id="d-shu-ju">
       <div class="detail-inner">
         <p>通过 BP 看板追踪核心指标（活跃度、留存率、使用时长等），识别下降趋势和异常波动。这是「发现问题的眼睛」，但只能告诉你「什么在变差」，不能告诉你「为什么」。</p>
         <p><span class="old-case">（已有能力，无新增文档）</span></p>
@@ -259,18 +257,17 @@
     </div>
   </div>
 
-  <!-- ===== L2 ===== -->
-  <div class="skeleton" id="l2">
-    <div class="skeleton-header" onclick="toggle('d-l2',this)">
-      <div class="badge badge-l2">L2</div>
+  <div class="skeleton" id="xian-zhao">
+    <div class="skeleton-header" onclick="toggle('d-xian-zhao',this)">
+      <div class="badge badge-xian-zhao">🔻</div>
       <div class="info">
-        <div class="title">流失前信号</div>
+        <div class="title">流失前兆</div>
         <div class="source">外呼 + 社群 · 我们能补的</div>
       </div>
       <div class="conclusion">用户流失前做了什么、说了什么→行为先兆</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l2">
+    <div class="detail" id="d-xian-zhao">
       <div class="detail-inner">
 
         <h3>📌 快影临沂线下调研（33位万粉创作者）</h3>
@@ -280,6 +277,23 @@
           <li>三农／美食团购作者在流量持续不及预期时转移平台运营偏重→间接影响快影使用</li>
         </ul>
         <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 二次元版权误判：94%流失与处罚直接相关</h3>
+        <ul>
+          <li><strong>94%</strong> 流失作者与版权处罚直接相关（69%被处罚+25%被吓退），寒蝉效应明显</li>
+          <li><strong>31%</strong> 参与者中途退出——「不清楚处罚原因」→「以后还能干什么」的放弃曲线</li>
+          <li><strong>68%</strong> 参与者不满，82%认为作品遭误判——但不会通过客诉反馈</li>
+          <li>版权误判导致活动作品供给中24.7%～39.6%被打压，直接影响流量效率</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcADELlC9A458D_SNGOsnnlQk" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 二次元创作者线上访谈：80%全职依赖平台收入</h3>
+        <ul>
+          <li>全职创作者约<strong>80%</strong>依赖平台收入维持生计——收入波动直接触发生存压力</li>
+          <li><strong>90%</strong> 收入来自广告分成+活动补贴，商业订单匮乏——商单缺失导致运营重心向站外迁移</li>
+          <li>虚拟商品无法挂车→变现链路断裂→创作者流失风险累计</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACC2vnzNN4lv3BVrTtBobsw" target="_blank">📄 查看完整文档 →</a>
 
         <h3>📌 同城相亲内容创作者调研（5位作者深度访谈）</h3>
         <ul>
@@ -299,12 +313,10 @@
 
       </div>
     </div>
-  </div>
 
-  <!-- ===== L3 ===== -->
-  <div class="skeleton" id="l3">
-    <div class="skeleton-header" onclick="toggle('d-l3',this)">
-      <div class="badge badge-l3">L3</div>
+  <div class="skeleton" id="dong-ji">
+    <div class="skeleton-header" onclick="toggle('d-dong-ji',this)">
+      <div class="badge badge-dong-ji">🧠</div>
       <div class="info">
         <div class="title">行为动机</div>
         <div class="source">社群 + 深度访谈 · 我们能补的</div>
@@ -312,7 +324,7 @@
       <div class="conclusion">用户为什么做/不做某件事→深层驱动因素</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l3">
+    <div class="detail" id="d-dong-ji">
       <div class="detail-inner">
 
         <h3>📌 快影：三类垂类创作者的动机差异</h3>
@@ -323,6 +335,24 @@
           <li>AI已在万粉作者中建立初步认知（33位中有24位了解AI，14位已使用过，2位已实现AI变现）</li>
         </ul>
         <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 特效师：效果驱动创作，教程缺失是最大瓶颈</h3>
+        <ul>
+          <li><strong>80%</strong> 特效师存在创作卡点——早期阶段（灵感获取44.1% + 学习28.6%）是最大瓶颈</li>
+          <li><strong>29.6%</strong> 不使用新功能因「不清楚功能是做什么的」，22.7%「不知道如何使用」→功能认知严重不足</li>
+          <li><strong>45%</strong> 靠自己摸索学习新功能，而非官方教程——教学培养缺乏官方引导</li>
+          <li>功能满意度：基础功能(8.0+) > 2D装饰(8.0) > AI生成(7.7) > 3D(7.1)，复杂度直接影响使用意愿</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAofDTIazy7OiqB44P6vreh" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 二次元创作者：「为爱发电」到「健康可持续创作」</h3>
+        <ul>
+          <li>90%为内容型作者，兴趣驱动生产——但全职作者(约80%)同时依赖流量带来的广告分成收入</li>
+          <li><strong>收入分化严重</strong>：月入4k-3w不等，广告分成占比远大于活动补贴</li>
+          <li>创作动机排序：<strong>广告分成 &gt; 活动补贴 &gt; 兴趣表达</strong>——合理的流量分配比现金奖励更有效</li>
+          <li>社群定位应为：有温度、有价值、能成长的「创作者之家」</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACC2vnzNN4lv3BVrTtBobsw" target="_blank">📄 查看完整文档 →</a>
 
         <h3>📌 同城相亲：线上型 vs 线下型作者的变现逻辑差异</h3>
         <ul>
@@ -344,10 +374,9 @@
     </div>
   </div>
 
-  <!-- ===== L4 ===== -->
-  <div class="skeleton" id="l4">
-    <div class="skeleton-header" onclick="toggle('d-l4',this)">
-      <div class="badge badge-l4">L4</div>
+  <div class="skeleton" id="tong-dian">
+    <div class="skeleton-header" onclick="toggle('d-tong-dian',this)">
+      <div class="badge badge-tong-dian">🤐</div>
       <div class="info">
         <div class="title">沉默痛点</div>
         <div class="source">社群日常观察 · 我们能补的</div>
@@ -355,8 +384,27 @@
       <div class="conclusion">用户不说但很痛的点→不会投诉但悄悄流失</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l4">
+    <div class="detail" id="d-tong-dian">
       <div class="detail-inner">
+
+        <h3>📌 版权误判的寒蝉效应：82%被误判但不会投诉</h3>
+        <ul>
+          <li><strong>82%</strong> 用户认为作品遭误判但不会通过客诉渠道反馈——「不清楚处罚原因」「无法解决处罚」</li>
+          <li><strong>25%</strong> 用户因担心被处罚而直接选择退出——即使自己没被罚也被吓退，寒蝉效应明显</li>
+          <li>「从3月13日开始大量违规」→「不知道为什么被封」→「以后还能干什么」的放弃曲线，无人诉诸正式渠道</li>
+          <li><strong>关键信号</strong>：98%误判作者如果解决处罚后愿意回归——沉默不代表不可挽回</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcADELlC9A458D_SNGOsnnlQk" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 特效师工具体验的沉默痛点</h3>
+        <ul>
+          <li><strong>41.4%</strong> 创作频率低面临流失风险——9.4%从未使用过任何功能模块</li>
+          <li><strong>3D功能</strong>满意度最低(7.1分)：使用复杂、性能差、效果差、功能不完备、收益低——五维全差</li>
+          <li><strong>变形/换脸</strong>满意度和高分率均低——该功能用于主流搞怪/美萌创作，影响面广</li>
+          <li><strong>灵感获取困难</strong>是最大痛点(44.1%)——比工具本身功能问题更严重</li>
+          <li>特效师日常反馈记录（内部任务）：工具使用困难、功能不完备、教程缺失等问题持续被提及</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcAAofDTIazy7OiqB44P6vreh" target="_blank">📄 查看完整文档 →</a>
 
         <h3>📌 快影：18项体验优化问题</h3>
         <ul>
@@ -391,10 +439,9 @@
     </div>
   </div>
 
-  <!-- ===== L5 ===== -->
-  <div class="skeleton" id="l5">
-    <div class="skeleton-header" onclick="toggle('d-l5',this)">
-      <div class="badge badge-l5">L5</div>
+  <div class="skeleton" id="jing-pin">
+    <div class="skeleton-header" onclick="toggle('d-jing-pin',this)">
+      <div class="badge badge-jing-pin">👀</div>
       <div class="info">
         <div class="title">竞品情报</div>
         <div class="source">社群 + 访谈 · 我们能补的</div>
@@ -402,7 +449,7 @@
       <div class="conclusion">竞对在做什么、用户为什么选他们→对手视角</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l5">
+    <div class="detail" id="d-jing-pin">
       <div class="detail-inner">
 
         <h3>📌 快影 vs 剪映 &amp; PR</h3>
@@ -413,6 +460,15 @@
           <li>PC端市场：剪映PR心智极强，快影切入需优先解决场景缺失、迁移成本高等前置问题</li>
         </ul>
         <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 二次元创作者多平台运营生态</h3>
+        <ul>
+          <li>二次元作者同时在<strong>抖音、B站、小红书、各大视频号</strong>运营——快手只是渠道之一</li>
+          <li>B站是二次元创作者的心智主阵地——内容氛围和粉丝互动更契合</li>
+          <li>抖音通过创作者激励计划吸引二次元作者入驻，对快手形成直接竞争</li>
+          <li>运营重心向站外迁移的风险：商单少→去B站接商单→逐渐离开快手</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACC2vnzNN4lv3BVrTtBobsw" target="_blank">📄 查看完整文档 →</a>
 
         <h3>📌 回森 vs 全民K歌/配音App</h3>
         <ul>
@@ -433,10 +489,9 @@
     </div>
   </div>
 
-  <!-- ===== L6 ===== -->
-  <div class="skeleton" id="l6">
-    <div class="skeleton-header" onclick="toggle('d-l6',this)">
-      <div class="badge badge-l6">L6</div>
+  <div class="skeleton" id="xin-zhi">
+    <div class="skeleton-header" onclick="toggle('d-xin-zhi',this)">
+      <div class="badge badge-xin-zhi">🎭</div>
       <div class="info">
         <div class="title">心智模型</div>
         <div class="source">行为反推 + 访谈 · 我们能补的</div>
@@ -444,8 +499,26 @@
       <div class="conclusion">用户怎么看待这个产品→认知框架决定行为</div>
       <div class="arrow">▾</div>
     </div>
-    <div class="detail" id="d-l6">
+    <div class="detail" id="d-xin-zhi">
       <div class="detail-inner">
+
+        <h3>📌 版权误判下的放弃曲线——心智崩溃三阶段</h3>
+        <ul>
+          <li><strong>第一阶段「困惑」：</strong>"为什么被封？"——不清楚处罚原因，找不到申诉入口</li>
+          <li><strong>第二阶段「恐惧」：</strong>"会不会又被罚"——即使没被罚也因担心被处罚而减少创作（25%被吓退）</li>
+          <li><strong>第三阶段「放弃」：</strong>"以后还能干什么"——从主动创作转向彻底放弃，形成寒蝉效应</li>
+          <li><strong>修复窗口</strong>：98%误判作者解决处罚后愿意回归——心智未彻底关闭前干预有效</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcADELlC9A458D_SNGOsnnlQk" target="_blank">📄 查看完整文档 →</a>
+
+        <h3>📌 二次元创作者心智：「平台只是渠道，社群才是家」</h3>
+        <ul>
+          <li>二次元作者将快手视为<strong>流量渠道之一</strong>而非创作主阵地——B站才是心智归属</li>
+          <li>社群定位期待：<strong>「有温度、有价值、能成长的创作者之家」</strong>——需要情感连接+商业价值</li>
+          <li>「为爱发电」不可持续——长期需要商单对接+虚拟商品挂车来实现商业化闭环</li>
+          <li>周末是创作高峰：作品发布数增长时播放量上升→可通过活动牵引周末多发</li>
+        </ul>
+        <a class="case-link" href="https://docs.corp.kuaishou.com/d/home/fcACC2vnzNN4lv3BVrTtBobsw" target="_blank">📄 查看完整文档 →</a>
 
         <h3>📌 快影作者心智："免费工具不值得付" vs "付费=投资"</h3>
         <ul>
@@ -540,7 +613,7 @@
               <td>中等（15-30min）</td>
               <td>快（1-2周出结果）</td>
               <td>低</td>
-              <td>L2 流失信号</td>
+              <td>流失前兆</td>
             </tr>
             <tr>
               <td>社群</td>
@@ -548,7 +621,7 @@
               <td>浅-中（日常观察）</td>
               <td>持续（随时获取）</td>
               <td>极低</td>
-              <td>L2-L6 均可</td>
+              <td>各类均可</td>
             </tr>
             <tr>
               <td>调研</td>
@@ -556,10 +629,10 @@
               <td>深（1-2h深度访谈）</td>
               <td>慢（3-4周出结果）</td>
               <td>高</td>
-              <td>L3-L6 深层信息</td>
+              <td>动机·痛点·竞品·心智</td>
             </tr>
           </table>
-          <p style="margin-top:10px;"><strong>数据来源库</strong>：BP客诉系统（L0）+ BP看板（L1）+ 外呼任务记录（L2）+ 社群聊天记录（L2-L4）+ 用研报告（L3-L6）</p>
+          <p style="margin-top:10px;"><strong>数据来源库</strong>：BP客诉系统 + BP看板 + 外呼任务记录 + 社群聊天记录 + 用研报告</p>
         </div>
       </div>
     </div>
@@ -574,24 +647,55 @@
         <div class="ap-body-inner">
           <p style="margin-bottom:10px;">每份材料一句话介绍核心发现 + 文档链接（点击可查看完整原始文档）</p>
           <table>
-            <tr><th>#</th><th>业务线</th><th>一句话介绍</th><th>文档链接</th></tr>
+            <tr><th>#</th><th>业务线</th><th>来源</th><th>一句话介绍</th><th>文档链接</th></tr>
             <tr>
               <td>1</td>
               <td><strong>快影</strong></td>
+              <td>主站用研</td>
               <td>33位万粉垂类创作者线下深度访谈：三类垂类作者动机/痛点/工具使用差异显著，收集18项体验优化点，AI已在万粉作者中建立初步认知</td>
               <td><a href="https://docs.corp.kuaishou.com/d/home/fcACe0HK7JRr93efMn8w7KUbi" target="_blank">📄 快影临沂线下调研（2025.06）</a></td>
             </tr>
             <tr>
               <td>2</td>
               <td><strong>同城相亲</strong></td>
+              <td>主站用研</td>
               <td>5位相亲内容作者深度访谈：线上型（直播打赏5-7h/天）vs 线下型（登记费模式），42%基本没赚钱，「早上牵手晚上分手」速配问题严重</td>
               <td><a href="https://docs.corp.kuaishou.com/d/home/fcAD--ZrM4Eivm17--AHxInUC" target="_blank">📄 同城相亲内容创作者调研（2026.05）</a></td>
             </tr>
             <tr>
               <td>3</td>
               <td><strong>回森</strong></td>
+              <td>主站用研</td>
               <td>39位用户线下深度访谈（沈阳/鞍山）：AI美音「不像自己」负面普遍、曲库版权下架影响生产意愿、歌房社交效率>作品社交、05后原生app心智</td>
               <td><a href="https://docs.corp.kuaishou.com/d/home/fcAAi8k2ykFbLKJKWbJgkZTA3" target="_blank">📄 回森线下调研（沈阳/鞍山·2026.04）</a></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>动漫版权</strong></td>
+              <td>社群用研</td>
+              <td>二次元动漫版权二创审核对齐调研：94%流失与版权处罚直接相关，68%参与者不满但不会投诉，「不清楚处罚原因→以后还能干什么」的放弃曲线</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcADELlC9A458D_SNGOsnnlQk" target="_blank">📄 二次元动漫版权二创审核对齐（2026.03）</a></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>必扬特效</strong></td>
+              <td>社群用研</td>
+              <td>447份问卷+电话：58.6%特效师保持周更频率，80%存在创作卡点，灵感获取(44.1%)和功能认知不足(29.6%)是最大瓶颈，3D功能满意度最低(7.1分)</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcAAofDTIazy7OiqB44P6vreh" target="_blank">📄 2026Q2-BE工具需求调研-结论</a></td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>二次元创作者</strong></td>
+              <td>社群用研</td>
+              <td>10位二次元作者线上深度访谈：90%内容型作者，全职占比80%依赖平台收入，商单匮乏+虚拟商品无法挂车导致运营重心向站外迁移</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcACC2vnzNN4lv3BVrTtBobsw" target="_blank">📄 二次元创作者线上访谈调研——项目复盘</a></td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>社群项目</strong></td>
+              <td>社群管理</td>
+              <td>社群项目准入标准：有钱+能说明白需求=准入门槛低，三个条件决定合作深度（对接人稳定、目标清晰、数据共享意愿）</td>
+              <td><a href="https://docs.corp.kuaishou.com/d/home/fcADupKX6W4TBMsPAp5eN01Vg" target="_blank">📄 社群项目准入标准</a></td>
             </tr>
           </table>
         </div>
@@ -602,7 +706,7 @@
 
   <!-- 页脚 -->
   <div style="text-align:center;color:#c9cdd4;font-size:12px;padding:40px 0 20px;">
-    页面版本 v1.1 · 更新于 2026.06 · 3份用研报告已集成（同城相亲 · 回森 · 快影）
+    页面版本 v2.0 · 更新于 2026.06 · 7份材料已集成（主站产品用研3份 + 社群用研4份）
   </div>
 </div>
 
